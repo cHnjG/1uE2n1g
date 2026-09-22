@@ -1,0 +1,568 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f4f4f2;
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
+  padding: 22px;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("fonts/SpaceGrotesk.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+}
+
+/* 首页大卡片 */
+
+.hero {
+  position: relative;
+
+  width: 100%;
+  height: calc(100vh - 44px);
+  min-height: 650px;
+
+  background: #dfdfdf;
+
+  border: 1px solid #222;
+  border-radius: 14px;
+
+  overflow: hidden;
+}
+
+
+/* 顶部信息 */
+
+.topbar {
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+  right: 14px;
+
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr auto;
+  gap: 20px;
+
+  font-size: 11px;
+  line-height: 1.15;
+}
+
+
+/* 中间标题 */
+
+.title {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  pointer-events: none;
+}
+
+.title h1 {
+  margin: 0;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(80px, 13vw, 220px);
+  font-weight: 400;
+
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+
+/* 底部信息 */
+
+.footer {
+  position: absolute;
+
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+/* 手机 */
+
+@media (max-width: 700px) {
+
+  body {
+    padding: 10px;
+  }
+
+  .hero {
+    height: calc(100vh - 20px);
+    border-radius: 10px;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .topbar > div:nth-child(3) {
+    display: none;
+  }
+
+  .title h1 {
+    font-size: 20vw;
+  }
+
+}
+
+/* ========================================
+   第二屏：名字解码
+======================================== */
+
+
+/*
+第二屏故意比浏览器高。
+
+300vh = 三个屏幕的滚动距离。
+
+这样里面的内容可以 sticky 固定，
+而我们继续滚动来完成颜色变化。
+*/
+
+.name-origin {
+  position: relative;
+
+  height: 300vh;
+
+  margin-top: 22px;
+}
+
+
+/*
+真正看到的那一屏。
+
+sticky 的意思是：
+滚到这里以后，它会暂时固定在屏幕里。
+*/
+
+.origin-sticky {
+  position: sticky;
+  top: 22px;
+
+  height: calc(100vh - 44px);
+
+  background: #f4f4f2;
+
+  border: 1px solid #222;
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* 左上角的小标题 */
+
+.origin-label {
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+
+  font-size: 11px;
+  line-height: 1;
+}
+
+
+/* 两个人的名字 */
+
+.origin-names {
+  width: 100%;
+
+  text-align: center;
+
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
+
+  font-size: clamp(55px, 8vw, 140px);
+  font-weight: 400;
+
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+}
+
+
+/*
+共同字母。
+
+一开始跟普通文字一样是黑色。
+JavaScript 会逐渐改变 --progress。
+*/
+
+.shared {
+  color: rgb(
+    calc(34 + (143 - 34) * var(--progress, 0)),
+    calc(34 + (70 - 34) * var(--progress, 0)),
+    calc(34 + (53 - 34) * var(--progress, 0))
+  );
+}
+
+
+/*
+解码出来的 1uE2n1g。
+
+一开始隐藏。
+*/
+
+.origin-result {
+  position: absolute;
+
+  bottom: 30px;
+
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
+
+  font-size: 18px;
+  letter-spacing: -0.02em;
+
+  opacity: var(--result-opacity, 0);
+
+  transform: translateY(
+    calc(12px * (1 - var(--result-opacity, 0)))
+  );
+}
+
+
+/* 手机 */
+
+@media (max-width: 700px) {
+
+  .name-origin {
+    height: 250vh;
+    margin-top: 10px;
+  }
+
+  .origin-sticky {
+    top: 10px;
+
+    height: calc(100vh - 20px);
+
+    border-radius: 10px;
+  }
+
+  .origin-names {
+    font-size: 13vw;
+    line-height: 0.95;
+  }
+
+}
+
+/* ------------------------------
+   Archive
+------------------------------ */
+
+.archive {
+  width: 100%;
+  padding: 110px 22px 80px;
+}
+
+.archive::before {
+  content: "";
+  display: block;
+
+  width: 100%;
+  border-top: 1px solid #222;
+
+  margin-bottom: 14px;
+}
+
+
+/* 一个项目 */
+
+.project {
+  width: 100%;
+  /* border-top: 1px solid #222; */
+  padding-top: 10px;
+}
+
+
+/* 项目信息 */
+
+.project-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+
+  font-size: 13px;
+  line-height: 1.2;
+
+  margin-bottom: 12px;
+}
+
+.project-title {
+  text-align: left;
+}
+
+.project-type {
+  text-align: right;
+}
+
+
+/* 横向图片流 */
+
+.project-gallery {
+  display: flex;
+  gap: 8px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding-bottom: 10px;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* 图片 */
+
+.project-gallery img {
+  height: 65vh;
+  max-height: 700px;
+
+  width: auto;
+
+  flex: 0 0 auto;
+
+  object-fit: contain;
+  display: block;
+}
+
+
+/* 视频 */
+
+.project-gallery video {
+  height: 65vh;
+  max-height: 700px;
+
+  width: auto;
+  max-width: 80vw;
+
+  flex: 0 0 auto;
+
+  object-fit: contain;
+
+  background: #000;
+
+  display: block;
+}
+
+/* ========================================
+   Information
+======================================== */
+
+.information {
+  position: relative;
+
+  margin-top: 22px;
+  margin-bottom: 22px;
+
+  min-height: 75vh;
+
+  padding: 14px;
+
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
+}
+
+
+/* 左上角 INFORMATION */
+
+.information-label {
+  font-size: 11px;
+  line-height: 1;
+}
+
+
+/* 主体 */
+
+.information-grid {
+  min-height: calc(75vh - 50px);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  align-items: center;
+
+  gap: 80px;
+
+  padding: 80px 5vw;
+}
+
+
+/* 左侧 */
+
+.info-id {
+  font-size: clamp(30px, 4.5vw, 76px);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  margin-bottom: 16px;
+}
+
+.information-intro p {
+  font-size: 13px;
+  line-height: 1.3;
+
+  margin: 0 0 16px 0;
+}
+
+
+/* 右侧 metadata */
+
+.information-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 50px 30px;
+}
+
+.info-label {
+  font-size: 10px;
+
+  margin-bottom: 8px;
+
+  opacity: 0.55;
+}
+
+.info-value {
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+
+/* 手机 */
+
+@media (max-width: 700px) {
+
+  .information {
+    min-height: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    border-radius: 10px;
+  }
+
+  .information-grid {
+    min-height: auto;
+
+    grid-template-columns: 1fr;
+
+    gap: 70px;
+
+    padding: 100px 10px 60px;
+  }
+
+  .information-details {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 40px 20px;
+  }
+
+}
+
+/* ========================================
+   Live Log
+======================================== */
+
+.live-log {
+  margin-top: 22px;
+  margin-bottom: 22px;
+
+  padding: 14px;
+
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
+}
+
+.live-log-label {
+  font-size: 11px;
+  margin-bottom: 100px;
+}
+
+
+/* 每一个年份 */
+
+.live-year {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+
+  padding: 12px 0 60px;
+
+  border-top: 1px solid #222;
+}
+
+.year {
+  font-size: 13px;
+}
+
+
+/* 每一场 */
+
+.live-entry {
+  display: grid;
+
+  grid-template-columns:
+    150px
+    150px
+    1fr;
+
+  padding: 7px 0;
+
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+
+/* 鼠标经过 */
+
+.live-entry:hover {
+  color: #7d1d12;
+}
+
+
+/* 手机 */
+
+@media (max-width: 700px) {
+
+  .live-log {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    border-radius: 10px;
+  }
+
+  .live-log-label {
+    margin-bottom: 70px;
+  }
+
+  .live-year {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .live-entry {
+    grid-template-columns: 90px 90px 1fr;
+
+    font-size: 11px;
+  }
+
+}
